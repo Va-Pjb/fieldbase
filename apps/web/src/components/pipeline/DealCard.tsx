@@ -23,13 +23,13 @@ export default function DealCard({
       onClick={() => onOpen(deal)}
       {...listeners}
       {...attributes}
-      className={`ticket cursor-grab p-3 text-left ${isDragging ? 'opacity-60' : ''}`}
+      className={`ticket cursor-grab p-4 text-left ${isDragging ? 'opacity-60' : ''}`}
     >
       <p className="font-body text-small font-semibold text-ink">{deal.title}</p>
       {contactName && (
-        <p className="mt-0.5 font-body text-label uppercase text-slate">{contactName}</p>
+        <p className="mt-2 font-body text-label uppercase text-slate">{contactName}</p>
       )}
-      <p className="mt-2 font-mono text-small text-ink">
+      <p className="mt-3.5 font-mono text-small text-ink">
         {money(deal.value)}
         {deal.probability != null && <span className="text-slate"> · {deal.probability}%</span>}
       </p>
