@@ -22,3 +22,6 @@ export const SHARED_TYPES_VERSION = '0.0.0'
 
 // Generated Supabase database types (single source for web + MCP server).
 export * from './database.types'
+
+// AI Migration Wizard plan types (Phase 3).
+export * from './migration'
