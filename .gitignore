@@ -1,0 +1,34 @@
+# dependencies
+node_modules/
+
+# build outputs
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# editor / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.local
+
+# vite cache
+**/.vite/
+
+# supabase local artifacts (if the local stack is used later)
+supabase/.branches/
+supabase/.temp/
