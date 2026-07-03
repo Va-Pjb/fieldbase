@@ -31,6 +31,23 @@ businesses), with an MCP server as the hero feature: any MCP client
   and get my explicit confirmation that it's the intended one before
   proceeding. Never create cloud resources against an unverified account.
 
+## Design rules
+Applies to all UI work from Phase 1 onward.
+- Do NOT produce generic AI-looking frontend. Avoid the current AI-default
+  clusters: cream/beige (~#F4F1EA) background + high-contrast serif +
+  terracotta/clay accent (~#D97757); near-black background + a single
+  acid-green or vermilion accent; broadsheet layout with hairline rules and
+  zero border-radius. These read as "AI-generated" regardless of subject.
+- The design identity is already locked (Phase 0 Task 4): work-order paper,
+  blueprint ink, dispatch blue, hi-vis marker accent; Archivo / Public Sans /
+  JetBrains Mono. Derive every screen from those locked tokens — don't invent
+  new colors/fonts per screen; extend the token system instead.
+- Spend visual boldness in ONE signature place per view; keep everything else
+  quiet and disciplined. Ground UI copy in the field-service domain (jobs,
+  dispatch, work orders), not generic SaaS filler.
+- Quality floor (non-negotiable): responsive to mobile, visible keyboard
+  focus, reduced-motion respected.
+
 ## Where to look
 - Full architecture, data model, complete 15-tool MCP list, and Phase 0's
   detailed task-by-task breakdown: `plans/2026-07-03-architecture-and-phase0.md`
