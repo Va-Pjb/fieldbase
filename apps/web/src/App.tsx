@@ -7,6 +7,7 @@ import DesignTokens from './routes/DesignTokens'
 import Dashboard from './routes/Dashboard'
 import Contacts from './routes/Contacts'
 import ContactForm from './routes/ContactForm'
+import ContactDetail from './routes/ContactDetail'
 import Pipeline from './routes/Pipeline'
 import Automations from './routes/Automations'
 import Migration from './routes/Migration'
@@ -25,6 +26,7 @@ export default function App() {
               <Route path="contacts" element={<Contacts />} />
               <Route path="contacts/new" element={<ContactForm />} />
               <Route path="contacts/:id/edit" element={<ContactForm />} />
+              <Route path="contacts/:id" element={<ContactDetail />} />
               <Route path="pipeline" element={<Pipeline />} />
               <Route path="automations" element={<Automations />} />
               <Route path="migration" element={<Migration />} />
