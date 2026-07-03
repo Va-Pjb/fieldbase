@@ -25,3 +25,6 @@ export * from './database.types'
 
 // AI Migration Wizard plan types (Phase 3).
 export * from './migration'
+
+// AI Automation Layer types (Phase 4).
+export * from './automation'
