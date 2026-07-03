@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth/AuthProvider'
 import ProtectedRoute from './auth/ProtectedRoute'
 import LoginScreen from './auth/LoginScreen'
+import DesignTokens from './routes/DesignTokens'
 
 /**
  * Temporary protected landing page. The full app shell (sidebar + module
@@ -48,6 +49,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginScreen />} />
+          <Route path="/design-tokens" element={<DesignTokens />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<ProtectedHome />} />
           </Route>

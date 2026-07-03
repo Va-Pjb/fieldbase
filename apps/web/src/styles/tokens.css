@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Token values mirrored as CSS custom properties for use outside Tailwind
+   (canvas, inline styles, third-party widgets). Source of truth is
+   tailwind.config.ts — keep these in sync. */
+:root {
+  --color-ink: #14232b;
+  --color-ink-soft: #3a4a52;
+  --color-paper: #f7f6f1;
+  --color-paper-raised: #ffffff;
+  --color-paper-sunken: #efeee7;
+  --color-brand: #1b54c8;
+  --color-brand-ink: #0f3c97;
+  --color-signal: #c7f24a;
+  --color-signal-deep: #93c013;
+  --color-slate: #5c6b72;
+  --color-line: #d8dbd3;
+  --color-positive: #1e9e5a;
+  --color-danger: #d2462f;
+
+  --font-display: 'Archivo', system-ui, sans-serif;
+  --font-body: 'Public Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    font-family: theme('fontFamily.body');
+    color: theme('colors.ink.DEFAULT');
+    background-color: theme('colors.paper.DEFAULT');
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  /* Signature motif — the "field grid": faint graph-paper ruling that evokes
+     a tradesperson's site plan / work order. Use as an ambient surface. */
+  .field-grid {
+    background-color: theme('colors.paper.DEFAULT');
+    background-image:
+      linear-gradient(theme('colors.line') 1px, transparent 1px),
+      linear-gradient(90deg, theme('colors.line') 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-position: -1px -1px;
+  }
+
+  /* Hi-vis marker: a highlighter stripe behind inline text — the accent
+     device, used sparingly on the one thing that matters per view. */
+  .u-marker {
+    background-image: linear-gradient(
+      theme('colors.signal.DEFAULT'),
+      theme('colors.signal.DEFAULT')
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 0.42em;
+    background-position: 0 82%;
+    padding-inline: 0.08em;
+  }
+
+  /* Work-order ticket: a raised card with a perforated header stub. */
+  .ticket {
+    background-color: theme('colors.paper.raised');
+    border: 1px solid theme('colors.line');
+    border-radius: theme('borderRadius.card');
+  }
+  .ticket__perf {
+    border-top: 2px dashed theme('colors.line');
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
