@@ -26,6 +26,10 @@ businesses), with an MCP server as the hero feature: any MCP client
   tasks are done and tested.
 - No task should run longer than ~30 minutes of focused work. If one is
   ballooning, stop and split it before continuing.
+- Before creating any new cloud resource (Supabase project, deployment
+  target, etc.), first confirm which account/org is currently authenticated,
+  and get my explicit confirmation that it's the intended one before
+  proceeding. Never create cloud resources against an unverified account.
 
 ## Where to look
 - Full architecture, data model, complete 15-tool MCP list, and Phase 0's
