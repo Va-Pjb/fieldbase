@@ -75,6 +75,22 @@
   .ticket__perf {
     border-top: 2px dashed theme('colors.line');
   }
+
+  /* Clean, tokened horizontal scrollbar for the pipeline board. */
+  .board-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.line') transparent;
+  }
+  .board-scroll::-webkit-scrollbar {
+    height: 8px;
+  }
+  .board-scroll::-webkit-scrollbar-thumb {
+    background-color: theme('colors.line');
+    border-radius: 9999px;
+  }
+  .board-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

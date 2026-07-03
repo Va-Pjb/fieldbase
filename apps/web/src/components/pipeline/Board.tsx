@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import {
   DndContext,
   KeyboardSensor,
@@ -26,6 +27,27 @@ export default function Board({
     useSensor(KeyboardSensor),
   )
 
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const [fade, setFade] = useState({ left: false, right: false })
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    const update = () => {
+      setFade({
+        left: el.scrollLeft > 4,
+        right: Math.ceil(el.scrollLeft + el.clientWidth) < el.scrollWidth - 4,
+      })
+    }
+    update()
+    el.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update)
+    return () => {
+      el.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+
   function handleDragEnd(e: DragEndEvent) {
     if (!e.over) return
     const id = String(e.active.id)
@@ -37,16 +59,24 @@ export default function Board({
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
-      <div className="flex gap-4 overflow-x-auto pb-2">
-        {DEAL_STAGES.map((stage) => (
-          <Column
-            key={stage}
-            stage={stage}
-            deals={deals.filter((d) => d.stage === stage)}
-            contactNames={contactNames}
-            onOpenDeal={onOpenDeal}
-          />
-        ))}
+      <div className="relative">
+        {fade.left && (
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-paper to-transparent" />
+        )}
+        {fade.right && (
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-paper to-transparent" />
+        )}
+        <div ref={scrollRef} className="board-scroll flex gap-4 overflow-x-auto pb-3 pr-1">
+          {DEAL_STAGES.map((stage) => (
+            <Column
+              key={stage}
+              stage={stage}
+              deals={deals.filter((d) => d.stage === stage)}
+              contactNames={contactNames}
+              onOpenDeal={onOpenDeal}
+            />
+          ))}
+        </div>
       </div>
     </DndContext>
   )
