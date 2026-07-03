@@ -53,4 +53,70 @@ export function registerContactTools(server: McpServer) {
       }
     },
   )
+
+  server.registerTool(
+    'crm_create_contact',
+    {
+      title: 'Create contact',
+      description: 'Create a new CRM contact.',
+      inputSchema: {
+        name: z.string().min(1).describe('Person or business name.'),
+        phone: z.string().optional(),
+        email: z.string().email().optional(),
+        company: z.string().optional(),
+        source: z.string().optional().describe('Lead source, e.g. referral, google, website.'),
+        tags: z.array(z.string()).optional(),
+      },
+      annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
+    },
+    async ({ name, phone, email, company, source, tags }) => {
+      try {
+        const created = await contacts.createContact({
+          name,
+          phone: phone ?? null,
+          email: email ?? null,
+          company: company ?? null,
+          source: source ?? null,
+          tags: tags ?? [],
+        })
+        return ok({ contact: created })
+      } catch (e) {
+        return fail(`Failed to create contact: ${msg(e)}`)
+      }
+    },
+  )
+
+  server.registerTool(
+    'crm_update_contact',
+    {
+      title: 'Update contact',
+      description: 'Update fields on an existing contact. Only the fields you pass are changed.',
+      inputSchema: {
+        id: z.string().uuid(),
+        name: z.string().min(1).optional(),
+        phone: z.string().nullable().optional(),
+        email: z.string().email().nullable().optional(),
+        company: z.string().nullable().optional(),
+        source: z.string().nullable().optional(),
+        tags: z.array(z.string()).optional(),
+      },
+      annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
+    },
+    async ({ id, name, phone, email, company, source, tags }) => {
+      try {
+        const patch: contacts.ContactUpdate = {}
+        if (name !== undefined) patch.name = name
+        if (phone !== undefined) patch.phone = phone
+        if (email !== undefined) patch.email = email
+        if (company !== undefined) patch.company = company
+        if (source !== undefined) patch.source = source
+        if (tags !== undefined) patch.tags = tags
+        if (Object.keys(patch).length === 0) return fail('No fields provided to update.')
+        const updated = await contacts.updateContact(id, patch)
+        return ok({ contact: updated })
+      } catch (e) {
+        return fail(`Failed to update contact: ${msg(e)}`)
+      }
+    },
+  )
 }
