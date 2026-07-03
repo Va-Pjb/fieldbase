@@ -10,4 +10,8 @@ export const queryKeys = {
     list: () => ['deals', 'list'] as const,
     byContact: (contactId: string) => ['deals', 'byContact', contactId] as const,
   },
+  automations: {
+    all: ['automations'] as const,
+    list: () => ['automations', 'list'] as const,
+  },
 }
