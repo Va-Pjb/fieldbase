@@ -30,6 +30,19 @@ npm run dev:web      # start the web app (Vite dev server)
 npm run dev:mcp      # start the MCP server
 ```
 
+## MCP server (hero feature)
+
+The `@fieldbase/mcp-server` exposes the CRM over streamable HTTP so any MCP
+client can query and operate it — 8 `crm_*` tools (contacts CRUD, interactions,
+pipeline, move-deal-stage, and a natural-language `crm_query`). It signs in as a
+dedicated, RLS-scoped demo user (no service-role key). Setup, the tool list, and
+client-connection instructions: **`apps/mcp-server/README.md`**.
+
+```bash
+npm run dev:mcp                                                   # start it
+npx @modelcontextprotocol/inspector --cli http://localhost:3000/mcp --method tools/list
+```
+
 ## Development
 
 Built phase by phase. See `plans/2026-07-03-architecture-and-phase0.md` for the
