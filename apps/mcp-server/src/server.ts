@@ -1,6 +1,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { registerContactTools } from './tools/contacts.js'
 import { registerInteractionTools } from './tools/interactions.js'
+import { registerMigrationTools } from './tools/migration.js'
 import { registerPipelineTools } from './tools/pipeline.js'
 import { registerQueryTool } from './tools/query.js'
 
@@ -14,5 +15,6 @@ export function createFieldBaseMcpServer(): McpServer {
   registerInteractionTools(server)
   registerPipelineTools(server)
   registerQueryTool(server)
+  registerMigrationTools(server)
   return server
 }
