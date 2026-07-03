@@ -1,47 +1,15 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { AuthProvider, useAuth } from './auth/AuthProvider'
+import { AuthProvider } from './auth/AuthProvider'
 import ProtectedRoute from './auth/ProtectedRoute'
+import AppShell from './components/AppShell'
 import LoginScreen from './auth/LoginScreen'
 import DesignTokens from './routes/DesignTokens'
-
-/**
- * Temporary protected landing page. The full app shell (sidebar + module
- * routes) replaces this as the protected-route element in Phase 0, Task 5.
- */
-function ProtectedHome() {
-  const { user, signOut } = useAuth()
-  return (
-    <main
-      style={{
-        fontFamily: 'system-ui, sans-serif',
-        maxWidth: 640,
-        margin: '0 auto',
-        padding: '3rem 1.5rem',
-        lineHeight: 1.5,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>FieldBase</h1>
-      <p>
-        Signed in as <strong>{user?.email}</strong>.
-      </p>
-      <p style={{ color: '#555' }}>
-        Protected area placeholder — the app shell and module routes arrive in Task 5.
-      </p>
-      <button
-        onClick={() => void signOut()}
-        style={{
-          padding: '0.5rem 0.9rem',
-          border: '1px solid #ccc',
-          borderRadius: 8,
-          background: '#fff',
-          cursor: 'pointer',
-        }}
-      >
-        Sign out
-      </button>
-    </main>
-  )
-}
+import Dashboard from './routes/Dashboard'
+import Contacts from './routes/Contacts'
+import Pipeline from './routes/Pipeline'
+import Automations from './routes/Automations'
+import Migration from './routes/Migration'
+import Settings from './routes/Settings'
 
 export default function App() {
   return (
@@ -51,7 +19,14 @@ export default function App() {
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/design-tokens" element={<DesignTokens />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<ProtectedHome />} />
+            <Route element={<AppShell />}>
+              <Route index element={<Dashboard />} />
+              <Route path="contacts" element={<Contacts />} />
+              <Route path="pipeline" element={<Pipeline />} />
+              <Route path="automations" element={<Automations />} />
+              <Route path="migration" element={<Migration />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
