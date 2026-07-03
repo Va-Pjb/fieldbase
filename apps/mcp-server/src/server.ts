@@ -2,6 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { registerContactTools } from './tools/contacts.js'
 import { registerInteractionTools } from './tools/interactions.js'
 import { registerPipelineTools } from './tools/pipeline.js'
+import { registerQueryTool } from './tools/query.js'
 
 /**
  * Builds the FieldBase MCP server. Tools are registered per domain module.
@@ -12,5 +13,6 @@ export function createFieldBaseMcpServer(): McpServer {
   registerContactTools(server)
   registerInteractionTools(server)
   registerPipelineTools(server)
+  registerQueryTool(server)
   return server
 }
