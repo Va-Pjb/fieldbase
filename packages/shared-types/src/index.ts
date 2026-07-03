@@ -19,3 +19,6 @@ export const ContactSchema = z.object({
 export type Contact = z.infer<typeof ContactSchema>
 
 export const SHARED_TYPES_VERSION = '0.0.0'
+
+// Generated Supabase database types (single source for web + MCP server).
+export * from './database.types'

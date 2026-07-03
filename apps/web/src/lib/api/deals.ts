@@ -1,5 +1,5 @@
 import { supabase } from '../supabaseClient'
-import type { Tables, TablesInsert, TablesUpdate } from '../database.types'
+import type { Tables, TablesInsert, TablesUpdate } from '@fieldbase/shared-types'
 
 export type Deal = Tables<'deals'>
 export type DealInsert = TablesInsert<'deals'>

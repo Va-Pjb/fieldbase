@@ -3,6 +3,8 @@ import express, { type Request, type Response } from 'express'
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js'
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js'
 import { createFieldBaseMcpServer } from './server.js'
+import { config } from './config.js'
+import { initSupabase } from './lib/supabase.js'
 
 const app = express()
 app.use(express.json())
@@ -57,7 +59,16 @@ app.get('/', (_req: Request, res: Response) => {
   res.type('text/plain').send('FieldBase MCP server. Connect an MCP client to POST /mcp.')
 })
 
-const PORT = Number(process.env.PORT ?? 3000)
-app.listen(PORT, () => {
-  console.log(`[fieldbase-mcp] streamable HTTP server listening on http://localhost:${PORT}/mcp`)
-})
+initSupabase()
+  .then(({ email }) => {
+    console.log(`[fieldbase-mcp] authenticated as ${email} (RLS-scoped demo user)`)
+    app.listen(config.port, () => {
+      console.log(
+        `[fieldbase-mcp] streamable HTTP server listening on http://localhost:${config.port}/mcp`,
+      )
+    })
+  })
+  .catch((err: unknown) => {
+    console.error('[fieldbase-mcp] startup failed:', err instanceof Error ? err.message : err)
+    process.exit(1)
+  })

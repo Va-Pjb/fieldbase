@@ -10,8 +10,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.110.0",
     "@fieldbase/shared-types": "*",
     "@modelcontextprotocol/sdk": "^1.29.0",
+    "@supabase/supabase-js": "^2.110.0",
+    "dotenv": "^17.4.2",
     "express": "^4.22.2",
     "zod": "^3.25.76"
   },
