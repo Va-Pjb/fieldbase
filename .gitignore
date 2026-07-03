@@ -32,3 +32,9 @@ yarn-error.log*
 # supabase local artifacts (if the local stack is used later)
 supabase/.branches/
 supabase/.temp/
+
+# playwright
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
