@@ -5,15 +5,7 @@ import { useDealsByContact } from '../hooks/useDeals'
 import { useDeleteContact } from '../hooks/useContactMutations'
 import ConfirmDialog from '../components/ConfirmDialog'
 import StageBadge from '../components/StageBadge'
-
-function money(value: number | null): string {
-  if (value == null) return '—'
-  return new Intl.NumberFormat('en-AU', {
-    style: 'currency',
-    currency: 'AUD',
-    maximumFractionDigits: 0,
-  }).format(value)
-}
+import { money } from '../lib/format'
 
 function Row({ label, value, mono }: { label: string; value: string | null; mono?: boolean }) {
   return (
