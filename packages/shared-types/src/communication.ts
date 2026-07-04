@@ -78,16 +78,59 @@ export interface AppointmentTimelineEvent extends TimelineEventBase {
   endTime: string
   notes: string | null
 }
-export interface ReviewTimelineEvent extends TimelineEventBase {
-  kind: 'review'
-  status: ReviewStatus
-  channel: ReviewChannel
-  body: string | null
+export type TimelineEvent = InteractionTimelineEvent | AppointmentTimelineEvent
+
+/** Raw interaction row (subset) fed into buildTimeline. */
+export interface TimelineInteractionRow {
+  id: string
+  type: InteractionType
+  content: string | null
+  ai_summary: string | null
+  occurred_at: string
 }
-export type TimelineEvent =
-  | InteractionTimelineEvent
-  | AppointmentTimelineEvent
-  | ReviewTimelineEvent
+/** Raw appointment row (subset) fed into buildTimeline. */
+export interface TimelineAppointmentRow {
+  id: string
+  status: AppointmentStatus
+  start_time: string
+  end_time: string
+  notes: string | null
+}
+
+/**
+ * Merge interactions + appointments into one timeline, most-recent first.
+ * review_requests are intentionally NOT merged: a sent review is already an
+ * interactions row (see review-request-send), so merging it too would
+ * double-count. Appointments are their own table and must be merged.
+ */
+export function buildTimeline(
+  interactions: TimelineInteractionRow[],
+  appointments: TimelineAppointmentRow[],
+): TimelineEvent[] {
+  const events: TimelineEvent[] = []
+  for (const i of interactions) {
+    events.push({
+      kind: 'interaction',
+      id: i.id,
+      at: i.occurred_at,
+      interactionType: i.type,
+      content: i.content,
+      aiSummary: i.ai_summary,
+    })
+  }
+  for (const a of appointments) {
+    events.push({
+      kind: 'appointment',
+      id: a.id,
+      at: a.start_time,
+      status: a.status,
+      startTime: a.start_time,
+      endTime: a.end_time,
+      notes: a.notes,
+    })
+  }
+  return events.sort((x, y) => Date.parse(y.at) - Date.parse(x.at))
+}
 
 export interface ContactSummaryResult {
   /** Claude-generated relationship summary, or null if none generated yet. */
