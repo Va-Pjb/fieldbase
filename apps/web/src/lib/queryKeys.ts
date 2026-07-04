@@ -14,4 +14,13 @@ export const queryKeys = {
     all: ['automations'] as const,
     list: () => ['automations', 'list'] as const,
   },
+  timeline: {
+    byContact: (contactId: string) => ['timeline', 'byContact', contactId] as const,
+  },
+  reviews: {
+    queue: () => ['reviews', 'queue'] as const,
+  },
+  widgetConfig: {
+    self: () => ['widgetConfig', 'self'] as const,
+  },
 }

@@ -5,6 +5,8 @@ import { useDealsByContact } from '../hooks/useDeals'
 import { useDeleteContact } from '../hooks/useContactMutations'
 import ConfirmDialog from '../components/ConfirmDialog'
 import StageBadge from '../components/StageBadge'
+import RelationshipSummary from '../components/comms/RelationshipSummary'
+import ContactTimeline from '../components/comms/ContactTimeline'
 import { money } from '../lib/format'
 
 function Row({ label, value, mono }: { label: string; value: string | null; mono?: boolean }) {
@@ -81,7 +83,15 @@ export default function ContactDetail() {
         </div>
       </header>
 
-      <div className="grid gap-6 px-6 py-8 md:px-10 lg:grid-cols-3">
+      <div className="px-6 pt-8 md:px-10">
+        <RelationshipSummary
+          contactId={c.id}
+          summary={c.ai_summary}
+          updatedAt={c.summary_updated_at}
+        />
+      </div>
+
+      <div className="grid gap-6 px-6 pb-8 pt-6 md:px-10 lg:grid-cols-3">
         <section className="ticket p-6 lg:col-span-1">
           <p className="font-body text-label uppercase text-slate">Details</p>
           <div className="ticket__perf my-3" />
@@ -109,31 +119,35 @@ export default function ContactDetail() {
           </dl>
         </section>
 
-        <section className="lg:col-span-2">
-          <h2 className="font-display text-heading text-ink">Deals</h2>
-          <div className="mt-3">
-            {deals.isLoading ? (
-              <p className="font-body text-small text-slate">Loading deals…</p>
-            ) : deals.data && deals.data.length > 0 ? (
-              <ul className="space-y-2">
-                {deals.data.map((d) => (
-                  <li key={d.id} className="ticket flex items-center justify-between gap-4 p-4">
-                    <div>
-                      <p className="font-body text-body text-ink">{d.title}</p>
-                      <p className="mt-0.5 font-mono text-small text-slate">
-                        {money(d.value)}
-                        {d.probability != null && ` · ${d.probability}%`}
-                      </p>
-                    </div>
-                    <StageBadge stage={d.stage} />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="font-body text-small text-slate">No deals for this contact yet.</p>
-            )}
-          </div>
-        </section>
+        <div className="space-y-8 lg:col-span-2">
+          <section>
+            <h2 className="font-display text-heading text-ink">Deals</h2>
+            <div className="mt-3">
+              {deals.isLoading ? (
+                <p className="font-body text-small text-slate">Loading deals…</p>
+              ) : deals.data && deals.data.length > 0 ? (
+                <ul className="space-y-2">
+                  {deals.data.map((d) => (
+                    <li key={d.id} className="ticket flex items-center justify-between gap-4 p-4">
+                      <div>
+                        <p className="font-body text-body text-ink">{d.title}</p>
+                        <p className="mt-0.5 font-mono text-small text-slate">
+                          {money(d.value)}
+                          {d.probability != null && ` · ${d.probability}%`}
+                        </p>
+                      </div>
+                      <StageBadge stage={d.stage} />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="font-body text-small text-slate">No deals for this contact yet.</p>
+              )}
+            </div>
+          </section>
+
+          <ContactTimeline contactId={c.id} />
+        </div>
       </div>
 
       {confirming && (

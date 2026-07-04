@@ -80,18 +80,18 @@ export interface AppointmentTimelineEvent extends TimelineEventBase {
 }
 export type TimelineEvent = InteractionTimelineEvent | AppointmentTimelineEvent
 
-/** Raw interaction row (subset) fed into buildTimeline. */
+/** Raw interaction row (subset) fed into buildTimeline (type as it comes from the DB). */
 export interface TimelineInteractionRow {
   id: string
-  type: InteractionType
+  type: string
   content: string | null
   ai_summary: string | null
   occurred_at: string
 }
-/** Raw appointment row (subset) fed into buildTimeline. */
+/** Raw appointment row (subset) fed into buildTimeline (status as it comes from the DB). */
 export interface TimelineAppointmentRow {
   id: string
-  status: AppointmentStatus
+  status: string
   start_time: string
   end_time: string
   notes: string | null
@@ -113,7 +113,7 @@ export function buildTimeline(
       kind: 'interaction',
       id: i.id,
       at: i.occurred_at,
-      interactionType: i.type,
+      interactionType: i.type as InteractionType,
       content: i.content,
       aiSummary: i.ai_summary,
     })
@@ -123,7 +123,7 @@ export function buildTimeline(
       kind: 'appointment',
       id: a.id,
       at: a.start_time,
-      status: a.status,
+      status: a.status as AppointmentStatus,
       startTime: a.start_time,
       endTime: a.end_time,
       notes: a.notes,
