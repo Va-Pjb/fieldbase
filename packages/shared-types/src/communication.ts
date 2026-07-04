@@ -160,8 +160,8 @@ export interface WidgetBookingInput {
   phone?: string
   /** ISO start time requested by the visitor. */
   startTime: string
-  /** ISO end time. */
-  endTime: string
+  /** ISO end time; optional — the server defaults it to start + 1h. */
+  endTime?: string
   notes?: string
 }
 

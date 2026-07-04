@@ -4,6 +4,7 @@ import { clearMyData, loadSampleData } from '../lib/sampleData'
 import { queryKeys } from '../lib/queryKeys'
 import { useContacts } from '../hooks/useContacts'
 import { useDeals } from '../hooks/useDeals'
+import WidgetSettings from '../components/widget/WidgetSettings'
 
 export default function Settings() {
   const qc = useQueryClient()
@@ -35,7 +36,7 @@ export default function Settings() {
         <h1 className="mt-1 font-display text-title text-ink">Settings</h1>
       </header>
 
-      <div className="px-6 py-8 md:px-10">
+      <div className="space-y-8 px-6 py-8 md:px-10">
         <section className="ticket max-w-2xl p-6">
           <h2 className="font-display text-heading text-ink">Demo data</h2>
           <p className="mt-1 font-body text-small text-slate">
@@ -101,6 +102,8 @@ export default function Settings() {
             </p>
           )}
         </section>
+
+        <WidgetSettings />
       </div>
     </div>
   )

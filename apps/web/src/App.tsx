@@ -13,6 +13,7 @@ import Automations from './routes/Automations'
 import Communication from './routes/Communication'
 import Migration from './routes/Migration'
 import Settings from './routes/Settings'
+import Widget from './routes/Widget'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginScreen />} />
           <Route path="/design-tokens" element={<DesignTokens />} />
+          <Route path="/widget/:token" element={<Widget />} />
           <Route element={<ProtectedRoute />}>
             <Route element={<AppShell />}>
               <Route index element={<Dashboard />} />
