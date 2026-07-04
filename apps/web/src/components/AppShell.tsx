@@ -3,6 +3,7 @@ import {
   Import,
   KanbanSquare,
   LayoutDashboard,
+  Megaphone,
   Settings as SettingsIcon,
   Users,
   Workflow,
@@ -15,6 +16,7 @@ const NAV: { to: string; label: string; icon: LucideIcon; end: boolean }[] = [
   { to: '/contacts', label: 'Contacts', icon: Users, end: false },
   { to: '/pipeline', label: 'Pipeline', icon: KanbanSquare, end: false },
   { to: '/automations', label: 'Automations', icon: Workflow, end: false },
+  { to: '/communication', label: 'Communication', icon: Megaphone, end: false },
   { to: '/migration', label: 'Migration', icon: Import, end: false },
   { to: '/settings', label: 'Settings', icon: SettingsIcon, end: false },
 ]

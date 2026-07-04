@@ -10,6 +10,7 @@ import ContactForm from './routes/ContactForm'
 import ContactDetail from './routes/ContactDetail'
 import Pipeline from './routes/Pipeline'
 import Automations from './routes/Automations'
+import Communication from './routes/Communication'
 import Migration from './routes/Migration'
 import Settings from './routes/Settings'
 
@@ -29,6 +30,7 @@ export default function App() {
               <Route path="contacts/:id" element={<ContactDetail />} />
               <Route path="pipeline" element={<Pipeline />} />
               <Route path="automations" element={<Automations />} />
+              <Route path="communication" element={<Communication />} />
               <Route path="migration" element={<Migration />} />
               <Route path="settings" element={<Settings />} />
             </Route>
