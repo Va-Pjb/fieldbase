@@ -5,6 +5,7 @@ import { registerInteractionTools } from './tools/interactions.js'
 import { registerMigrationTools } from './tools/migration.js'
 import { registerPipelineTools } from './tools/pipeline.js'
 import { registerQueryTool } from './tools/query.js'
+import { registerReviewTools } from './tools/reviews.js'
 
 /**
  * Builds the FieldBase MCP server. Tools are registered per domain module.
@@ -18,5 +19,6 @@ export function createFieldBaseMcpServer(): McpServer {
   registerQueryTool(server)
   registerMigrationTools(server)
   registerAutomationTools(server)
+  registerReviewTools(server)
   return server
 }
