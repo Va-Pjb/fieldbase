@@ -7,6 +7,8 @@ export type Json =
   | Json[]
 
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: '14.5'
   }
@@ -18,6 +20,8 @@ export type Database = {
           created_at: string
           end_time: string
           id: string
+          notes: string | null
+          source: string | null
           start_time: string
           status: string
           user_id: string
@@ -27,6 +31,8 @@ export type Database = {
           created_at?: string
           end_time: string
           id?: string
+          notes?: string | null
+          source?: string | null
           start_time: string
           status?: string
           user_id?: string
@@ -36,6 +42,8 @@ export type Database = {
           created_at?: string
           end_time?: string
           id?: string
+          notes?: string | null
+          source?: string | null
           start_time?: string
           status?: string
           user_id?: string
@@ -94,6 +102,7 @@ export type Database = {
       }
       contacts: {
         Row: {
+          ai_summary: string | null
           company: string | null
           created_at: string
           email: string | null
@@ -101,11 +110,13 @@ export type Database = {
           name: string
           phone: string | null
           source: string | null
+          summary_updated_at: string | null
           tags: string[]
           updated_at: string
           user_id: string
         }
         Insert: {
+          ai_summary?: string | null
           company?: string | null
           created_at?: string
           email?: string | null
@@ -113,11 +124,13 @@ export type Database = {
           name: string
           phone?: string | null
           source?: string | null
+          summary_updated_at?: string | null
           tags?: string[]
           updated_at?: string
           user_id?: string
         }
         Update: {
+          ai_summary?: string | null
           company?: string | null
           created_at?: string
           email?: string | null
@@ -125,6 +138,7 @@ export type Database = {
           name?: string
           phone?: string | null
           source?: string | null
+          summary_updated_at?: string | null
           tags?: string[]
           updated_at?: string
           user_id?: string
@@ -168,6 +182,60 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: 'deals_contact_id_fkey'
+            columns: ['contact_id']
+            isOneToOne: false
+            referencedRelation: 'contacts'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      followup_drafts: {
+        Row: {
+          automation_id: string | null
+          body: string
+          channel: string
+          contact_id: string
+          created_at: string
+          id: string
+          review_notes: Json | null
+          sent_at: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          automation_id?: string | null
+          body: string
+          channel: string
+          contact_id: string
+          created_at?: string
+          id?: string
+          review_notes?: Json | null
+          sent_at?: string | null
+          status?: string
+          user_id?: string
+        }
+        Update: {
+          automation_id?: string | null
+          body?: string
+          channel?: string
+          contact_id?: string
+          created_at?: string
+          id?: string
+          review_notes?: Json | null
+          sent_at?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'followup_drafts_automation_id_fkey'
+            columns: ['automation_id']
+            isOneToOne: false
+            referencedRelation: 'automations'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'followup_drafts_contact_id_fkey'
             columns: ['contact_id']
             isOneToOne: false
             referencedRelation: 'contacts'
@@ -254,28 +322,37 @@ export type Database = {
       }
       review_requests: {
         Row: {
+          body: string | null
+          channel: string
           contact_id: string
           created_at: string
           id: string
           job_id: string | null
+          review_notes: Json | null
           sent_at: string | null
           status: string
           user_id: string
         }
         Insert: {
+          body?: string | null
+          channel?: string
           contact_id: string
           created_at?: string
           id?: string
           job_id?: string | null
+          review_notes?: Json | null
           sent_at?: string | null
           status?: string
           user_id?: string
         }
         Update: {
+          body?: string | null
+          channel?: string
           contact_id?: string
           created_at?: string
           id?: string
           job_id?: string | null
+          review_notes?: Json | null
           sent_at?: string | null
           status?: string
           user_id?: string
@@ -288,7 +365,56 @@ export type Database = {
             referencedRelation: 'contacts'
             referencedColumns: ['id']
           },
+          {
+            foreignKeyName: 'review_requests_job_id_fkey'
+            columns: ['job_id']
+            isOneToOne: false
+            referencedRelation: 'deals'
+            referencedColumns: ['id']
+          },
         ]
+      }
+      widget_config: {
+        Row: {
+          business_name: string | null
+          created_at: string
+          faq: string | null
+          hours: string | null
+          id: string
+          is_enabled: boolean
+          public_token: string
+          review_link: string | null
+          services: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          business_name?: string | null
+          created_at?: string
+          faq?: string | null
+          hours?: string | null
+          id?: string
+          is_enabled?: boolean
+          public_token?: string
+          review_link?: string | null
+          services?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          business_name?: string | null
+          created_at?: string
+          faq?: string | null
+          hours?: string | null
+          id?: string
+          is_enabled?: boolean
+          public_token?: string
+          review_link?: string | null
+          services?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
     }
     Views: {

@@ -28,3 +28,6 @@ export * from './migration'
 
 // AI Automation Layer types (Phase 4).
 export * from './automation'
+
+// Communication types (Phase 5).
+export * from './communication'
