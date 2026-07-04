@@ -231,6 +231,9 @@ export function buildWidgetMessage(
 
 const MAX_LEN = { name: 200, email: 320, phone: 40, notes: 2000, question: 2000 }
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const PAST_GRACE_MS = 5 * 60_000 // allow a few minutes of clock skew
+const MAX_HORIZON_MS = 365 * 24 * 3_600_000 // no bookings more than ~12 months out
+const MAX_DURATION_MS = 24 * 3_600_000 // clamp an over-long requested window
 
 export interface BookingInput {
   name: string
@@ -244,8 +247,11 @@ export interface BookingInput {
 }
 export type BookingValidation = { ok: true; value: BookingInput } | { ok: false; error: string }
 
-/** Validate + normalize an untrusted public booking payload. */
-export function validateBookingInput(obj: unknown): BookingValidation {
+/**
+ * Validate + normalize an untrusted public booking payload. `nowMs` is injected
+ * (deterministic + testable) to bound the requested time to a sane window.
+ */
+export function validateBookingInput(obj: unknown, nowMs: number): BookingValidation {
   if (!obj || typeof obj !== 'object') return { ok: false, error: 'A booking is required.' }
   const o = obj as Record<string, unknown>
 
@@ -253,7 +259,8 @@ export function validateBookingInput(obj: unknown): BookingValidation {
   if (!name) return { ok: false, error: 'A name is required.' }
   if (name.length > MAX_LEN.name) return { ok: false, error: 'Name is too long.' }
 
-  const email = typeof o.email === 'string' && o.email.trim() ? o.email.trim() : undefined
+  const email =
+    typeof o.email === 'string' && o.email.trim() ? o.email.trim().toLowerCase() : undefined
   const phone = typeof o.phone === 'string' && o.phone.trim() ? o.phone.trim() : undefined
   if (!email && !phone) return { ok: false, error: 'An email or phone number is required.' }
   if (email && (email.length > MAX_LEN.email || !EMAIL_RE.test(email))) {
@@ -265,8 +272,13 @@ export function validateBookingInput(obj: unknown): BookingValidation {
 
   const startMs = typeof o.startTime === 'string' ? Date.parse(o.startTime) : NaN
   if (Number.isNaN(startMs)) return { ok: false, error: 'A valid requested time is required.' }
+  if (startMs < nowMs - PAST_GRACE_MS) return { ok: false, error: 'The requested time is in the past.' }
+  if (startMs > nowMs + MAX_HORIZON_MS) {
+    return { ok: false, error: 'The requested time is too far in the future.' }
+  }
   let endMs = typeof o.endTime === 'string' ? Date.parse(o.endTime) : NaN
   if (Number.isNaN(endMs) || endMs <= startMs) endMs = startMs + 3_600_000 // default 1 hour
+  if (endMs - startMs > MAX_DURATION_MS) endMs = startMs + 3_600_000 // reject an absurd window
 
   const notes =
     typeof o.notes === 'string' && o.notes.trim()

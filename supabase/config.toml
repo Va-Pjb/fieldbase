@@ -1,0 +1,9 @@
+# Supabase per-function config.
+#
+# Only widget-public needs a non-default here: it is the PUBLIC booking/FAQ
+# widget endpoint and must run WITHOUT JWT verification (visitors are
+# unauthenticated). It authenticates by a per-owner public_token and uses the
+# service role internally, hard-scoping every write to the token's owner.
+# Every other edge function keeps the default verify_jwt = true.
+[functions.widget-public]
+verify_jwt = false
