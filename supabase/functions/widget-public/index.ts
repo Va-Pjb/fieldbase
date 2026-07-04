@@ -22,7 +22,9 @@ import {
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'apikey, content-type',
+  // supabase-js always sends authorization + x-client-info; they must be allowed
+  // or the browser preflight fails (even though this endpoint ignores the JWT).
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 }
 
