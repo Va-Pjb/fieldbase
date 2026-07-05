@@ -31,3 +31,6 @@ export * from './automation'
 
 // Communication types (Phase 5).
 export * from './communication'
+
+// Insights types (Phase 6).
+export * from './insights'
