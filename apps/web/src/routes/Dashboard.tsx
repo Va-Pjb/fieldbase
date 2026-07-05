@@ -1,5 +1,6 @@
 import { useDashboard } from '../hooks/useDashboard'
 import { money } from '../lib/format'
+import QueryBar from '../components/insights/QueryBar'
 import StatTile from '../components/insights/StatTile'
 import PipelineByStage from '../components/insights/PipelineByStage'
 import SourceBreakdown from '../components/insights/SourceBreakdown'
@@ -34,7 +35,7 @@ export default function Dashboard() {
       </header>
 
       <div className="space-y-10 px-6 py-8 md:px-10">
-        {/* T5 mounts the natural-language query bar here, above the analytics. */}
+        <QueryBar />
 
         {isLoading ? (
           <LoadingState />
