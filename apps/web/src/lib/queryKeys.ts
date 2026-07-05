@@ -23,4 +23,8 @@ export const queryKeys = {
   widgetConfig: {
     self: () => ['widgetConfig', 'self'] as const,
   },
+  insights: {
+    dashboard: () => ['insights', 'dashboard'] as const,
+    query: (q: string) => ['insights', 'query', q] as const,
+  },
 }
